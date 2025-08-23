@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -10,12 +10,12 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-100">
+<body class="h-full bg-gray-100">
     <nav class="bg-[#d97706] shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="/" class="text-xl font-bold text-gray-800">SIMPLEE Restaurant</a>
+                    <a href="/" class="text-xl font-bold text-white">SIMPLEE Restaurant</a>
                 </div>
                 <div class="flex items-center space-x-4">
                     @auth
@@ -36,7 +36,7 @@
         </div>
     </nav>
 
-    <main>
+    <main class="h-full">
         @if (session()->has('message'))
             <div class="max-w-7xl mx-auto px-4 mb-4">
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
