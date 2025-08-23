@@ -114,7 +114,25 @@ class ReservationForm extends Component
             $this->step--;
             if ($this->step === 1) {
                 $this->showTables = false;
+                $this->selected_table_id = null;
             }
+        }
+    }
+
+    public function goToStep($targetStep)
+    {
+        if ($targetStep < $this->step) {
+            // Reset data based on target step
+            if ($targetStep === 1) {
+                $this->showTables = false;
+                $this->selected_table_id = null;
+                $this->special_requests = '';
+            } elseif ($targetStep === 2) {
+                $this->selected_table_id = null;
+                $this->special_requests = '';
+            }
+            
+            $this->step = $targetStep;
         }
     }
 

@@ -14,16 +14,45 @@
                 <!-- Progress Steps -->
                 <div class="mb-8">
                     <div class="flex items-center justify-center">
-                        <div class="flex items-center text-amber-600">
-                            <div class="rounded-full transition duration-500 ease-in-out h-12 w-12 flex items-center justify-center border-2 border-amber-600 bg-amber-600 text-white font-bold">1</div>
+                        <!-- Step 1 -->
+                        <div class="flex items-center text-amber-600 {{ $step > 1 ? 'cursor-pointer hover:opacity-80' : '' }}" 
+                             @if($step > 1) 
+                                onclick="if(confirm('Going back will reset your reservation progress. Are you sure you want to continue?')) { @this.call('goToStep', 1) }"
+                             @endif>
+                            <div class="rounded-full transition duration-500 ease-in-out h-12 w-12 flex items-center justify-center border-2 border-amber-600 bg-amber-600 text-white font-bold">
+                                @if($step > 1)
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                @else
+                                    1
+                                @endif
+                            </div>
                             <div class="ml-2 text-sm font-medium text-amber-600">Date & Time</div>
                         </div>
+                        
                         <div class="flex-auto border-t-2 mx-4 transition duration-500 ease-in-out {{ $step >= 2 ? 'border-amber-600' : 'border-gray-300' }}"></div>
-                        <div class="flex items-center {{ $step >= 2 ? 'text-amber-600' : 'text-gray-400' }}">
-                            <div class="rounded-full transition duration-500 ease-in-out h-12 w-12 flex items-center justify-center border-2 {{ $step >= 2 ? 'border-amber-600 bg-amber-600 text-white' : 'border-gray-300' }} font-bold">2</div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex items-center {{ $step >= 2 ? 'text-amber-600' : 'text-gray-400' }} {{ $step > 2 ? 'cursor-pointer hover:opacity-80' : '' }}"
+                             @if($step > 2) 
+                                onclick="if(confirm('Going back will reset your table selection and special requests. Are you sure you want to continue?')) { @this.call('goToStep', 2) }"
+                             @endif>
+                            <div class="rounded-full transition duration-500 ease-in-out h-12 w-12 flex items-center justify-center border-2 {{ $step >= 2 ? 'border-amber-600 bg-amber-600 text-white' : 'border-gray-300' }} font-bold">
+                                @if($step > 2)
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                @else
+                                    2
+                                @endif
+                            </div>
                             <div class="ml-2 text-sm font-medium">Select Table</div>
                         </div>
+                        
                         <div class="flex-auto border-t-2 mx-4 transition duration-500 ease-in-out {{ $step >= 3 ? 'border-amber-600' : 'border-gray-300' }}"></div>
+                        
+                        <!-- Step 3 -->
                         <div class="flex items-center {{ $step >= 3 ? 'text-amber-600' : 'text-gray-400' }}">
                             <div class="rounded-full transition duration-500 ease-in-out h-12 w-12 flex items-center justify-center border-2 {{ $step >= 3 ? 'border-amber-600 bg-amber-600 text-white' : 'border-gray-300' }} font-bold">3</div>
                             <div class="ml-2 text-sm font-medium">Confirm</div>
