@@ -1,19 +1,20 @@
-<div class="h-full bg-cover bg-center" style="background-image: url('/images/hero-background.jpg');">
-    <div class="w-full h-full flex flex-col justify-between bg-gradient-to-b lg:bg-gradient-to-r to-[#00000033] from-[#000000cc] min-h-screen">
-        <div class="h-full max-w-4xl mx-auto px-4 flex justify-center items-center py-8">
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('/images/hero-background.jpg');">
+    <div class="w-full bg-gradient-to-b lg:bg-gradient-to-r to-[#00000033] from-[#000000cc] min-h-screen py-4 md:py-8">
+        <div class="max-w-4xl mx-auto px-4 pb-4">
             <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
                 <!-- Header Section -->
-                <div class="bg-gradient-to-r from-amber-600 to-amber-800 px-8 py-6">
+                <div class="bg-gradient-to-r from-amber-600 to-amber-800 px-4 md:px-8 py-4 md:py-6">
                     <div class="text-center">
-                        <h2 class="text-3xl font-bold text-white mb-2">Reserve Your Table</h2>
-                        <p class="text-amber-100">Experience culinary excellence at SIMPLEE Restaurant</p>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Reserve Your Table</h2>
+                        <p class="text-amber-100 text-sm md:text-base">Experience culinary excellence at SIMPLEE Restaurant</p>
                     </div>
                 </div>
 
-            <div class="p-8">
+            <div class="p-4 md:p-8">
                 <!-- Progress Steps -->
-                <div class="mb-8">
-                    <div class="flex items-center justify-center">
+                <div class="mb-6 md:mb-8">
+                    <!-- Desktop Layout -->
+                    <div class="hidden md:flex items-center justify-center">
                         <!-- Step 1 -->
                         <div class="flex items-center text-amber-600 {{ $step > 1 ? 'cursor-pointer hover:opacity-80' : '' }}" 
                              @if($step > 1) 
@@ -58,6 +59,87 @@
                             <div class="ml-2 text-sm font-medium">Confirm</div>
                         </div>
                     </div>
+
+                    <!-- Mobile Layout -->
+                    <div class="md:hidden space-y-4">
+                        <!-- Step 1 -->
+                        <div class="flex items-center {{ $step >= 1 ? 'text-amber-600' : 'text-gray-400' }} {{ $step > 1 ? 'cursor-pointer hover:opacity-80' : '' }}" 
+                             @if($step > 1) 
+                                onclick="if(confirm('Going back will reset your reservation progress. Are you sure you want to continue?')) { @this.call('goToStep', 1) }"
+                             @endif>
+                            <div class="rounded-full transition duration-500 ease-in-out h-10 w-10 flex items-center justify-center border-2 {{ $step >= 1 ? 'border-amber-600 bg-amber-600 text-white' : 'border-gray-300' }} font-bold text-sm">
+                                @if($step > 1)
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                @else
+                                    1
+                                @endif
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-sm font-medium">Date & Time Selection</div>
+                                @if($step === 1)
+                                    <div class="text-xs text-gray-500">Choose your dining preferences</div>
+                                @endif
+                            </div>
+                            @if($step === 1)
+                                <div class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded">Current</div>
+                            @endif
+                        </div>
+
+                        <!-- Connecting line -->
+                        @if($step >= 2)
+                            <div class="ml-5 border-l-2 border-amber-600 h-4"></div>
+                        @else
+                            <div class="ml-5 border-l-2 border-gray-300 h-4"></div>
+                        @endif
+
+                        <!-- Step 2 -->
+                        <div class="flex items-center {{ $step >= 2 ? 'text-amber-600' : 'text-gray-400' }} {{ $step > 2 ? 'cursor-pointer hover:opacity-80' : '' }}"
+                             @if($step > 2) 
+                                onclick="if(confirm('Going back will reset your table selection and special requests. Are you sure you want to continue?')) { @this.call('goToStep', 2) }"
+                             @endif>
+                            <div class="rounded-full transition duration-500 ease-in-out h-10 w-10 flex items-center justify-center border-2 {{ $step >= 2 ? 'border-amber-600 bg-amber-600 text-white' : 'border-gray-300' }} font-bold text-sm">
+                                @if($step > 2)
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                @else
+                                    2
+                                @endif
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-sm font-medium">Table Selection</div>
+                                @if($step === 2)
+                                    <div class="text-xs text-gray-500">Choose your preferred table</div>
+                                @endif
+                            </div>
+                            @if($step === 2)
+                                <div class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded">Current</div>
+                            @endif
+                        </div>
+
+                        <!-- Connecting line -->
+                        @if($step >= 3)
+                            <div class="ml-5 border-l-2 border-amber-600 h-4"></div>
+                        @else
+                            <div class="ml-5 border-l-2 border-gray-300 h-4"></div>
+                        @endif
+
+                        <!-- Step 3 -->
+                        <div class="flex items-center {{ $step >= 3 ? 'text-amber-600' : 'text-gray-400' }}">
+                            <div class="rounded-full transition duration-500 ease-in-out h-10 w-10 flex items-center justify-center border-2 {{ $step >= 3 ? 'border-amber-600 bg-amber-600 text-white' : 'border-gray-300' }} font-bold text-sm">3</div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-sm font-medium">Confirmation</div>
+                                @if($step === 3)
+                                    <div class="text-xs text-gray-500">Review and confirm your reservation</div>
+                                @endif
+                            </div>
+                            @if($step === 3)
+                                <div class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded">Current</div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
                 @if ($errors->has('general'))
@@ -75,11 +157,11 @@
                 @if ($step === 1)
                     <div class="space-y-6">
                         <div class="text-center mb-6">
-                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">When would you like to dine?</h3>
-                            <p class="text-gray-600">Select your preferred date, time, and party size</p>
+                            <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-2">When would you like to dine?</h3>
+                            <p class="text-sm md:text-base text-gray-600">Select your preferred date, time, and party size</p>
                         </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                             <div class="space-y-2">
                                 <label for="reservation_date" class="block text-sm font-semibold text-gray-700 mb-2">
                                     <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -197,7 +279,7 @@
                         </div>
                         
                         @if ($available_tables->count() > 0)
-                            <div class="max-h-96 overflow-y-auto pr-2">
+                            <div class="pr-2">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     @foreach ($available_tables as $table)
                                         <div class="bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 rounded-lg p-4 hover:border-amber-500 hover:shadow-md cursor-pointer transition duration-300 {{ $selected_table_id === $table->id ? 'border-amber-500 bg-amber-50 shadow-md' : '' }}"
@@ -355,9 +437,5 @@
                 @endif
             </div>
         </div>
-    </div>
-    <!-- Features Section -->
-    <div class="w-full mt-auto">
-        <x-why-choose-us />
     </div>
 </div>
