@@ -18,6 +18,7 @@ class ReservationForm extends Component
     public $available_tables = [];
     public $time_slots = [];
     public $step = 1;
+    public $showTables = false;
 
     protected $reservationService;
 
@@ -65,6 +66,15 @@ class ReservationForm extends Component
             $this->available_tables = $this->reservationService
                 ->getAvailableTables($datetime, $this->party_size);
             
+            // Don't automatically show tables, wait for user action
+        }
+    }
+
+    public function nextStep()
+    {
+        if ($this->reservation_date && $this->reservation_time && $this->party_size) {
+            $this->checkAvailability();
+            $this->showTables = true;
             $this->step = 2;
         }
     }
@@ -102,6 +112,9 @@ class ReservationForm extends Component
     {
         if ($this->step > 1) {
             $this->step--;
+            if ($this->step === 1) {
+                $this->showTables = false;
+            }
         }
     }
 
