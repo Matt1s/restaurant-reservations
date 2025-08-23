@@ -29,8 +29,106 @@ class ReservationForm extends Component
 
     public function mount()
     {
-        $this->reservation_date = now()->addDay()->format('Y-m-d');
+        // Check for URL parameters from homepage form
+        $hasUrlParams = $this->parseUrlParameters();
+        
+        // Set default date if not provided
+        if (!$this->reservation_date) {
+            $this->reservation_date = now()->addDay()->format('Y-m-d');
+        }
+        
         $this->time_slots = $this->reservationService->getTimeSlots($this->reservation_date);
+        
+        // If we have valid data from URL, proceed to table selection
+        if ($this->isValidUrlData()) {
+            $this->checkAvailability();
+            $this->showTables = true;
+            $this->step = 2;
+        } elseif ($hasUrlParams) {
+            // Show error if URL params exist but are invalid
+            session()->flash('url_error', 'Some reservation details from the homepage were invalid and have been reset. Please verify your selections below.');
+        }
+    }
+
+    private function parseUrlParameters()
+    {
+        $request = request();
+        $hasParams = false;
+        
+        // Parse and validate date parameter
+        if ($request->has('date')) {
+            $hasParams = true;
+            $date = $request->get('date');
+            if ($this->isValidDate($date)) {
+                $this->reservation_date = $date;
+            }
+        }
+        
+        // Parse and validate time parameter
+        if ($request->has('time')) {
+            $hasParams = true;
+            $time = $request->get('time');
+            if ($this->isValidTime($time)) {
+                $this->reservation_time = $time;
+            }
+        }
+        
+        // Parse and validate party size parameter
+        if ($request->has('party_size')) {
+            $hasParams = true;
+            $partySize = $request->get('party_size');
+            if ($this->isValidPartySize($partySize)) {
+                $this->party_size = (int) $partySize;
+            }
+        }
+        
+        return $hasParams;
+    }
+
+    private function isValidUrlData()
+    {
+        return $this->reservation_date && 
+               $this->reservation_time && 
+               $this->party_size &&
+               $this->isValidDate($this->reservation_date) &&
+               $this->isValidTime($this->reservation_time) &&
+               $this->isValidPartySize($this->party_size);
+    }
+
+    private function isValidDate($date)
+    {
+        if (!$date) return false;
+        
+        try {
+            $carbonDate = Carbon::parse($date);
+            return $carbonDate->isValid() && 
+                   $carbonDate->format('Y-m-d') === $date &&
+                   $carbonDate->isToday() || $carbonDate->isFuture();
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    private function isValidTime($time)
+    {
+        if (!$time) return false;
+        
+        // Check if time matches HH:mm format and is within restaurant hours
+        if (!preg_match('/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/', $time)) {
+            return false;
+        }
+        
+        // Restaurant hours: 17:00 - 21:00
+        $allowedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
+        return in_array($time, $allowedTimes);
+    }
+
+    private function isValidPartySize($partySize)
+    {
+        if (!is_numeric($partySize)) return false;
+        
+        $size = (int) $partySize;
+        return $size >= 1 && $size <= 12;
     }
 
     protected $rules = [
