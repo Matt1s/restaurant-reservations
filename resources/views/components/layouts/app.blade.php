@@ -49,7 +49,11 @@
             </div>
         @endif
 
-        {{ $slot }}
+        @hasSection('content')
+            @yield('content')
+        @else
+            {{ $slot }}
+        @endif
     </main>
 
     @livewireScripts

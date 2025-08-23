@@ -8,7 +8,7 @@ use App\Http\Livewire\ReservationForm;
 use App\Http\Livewire\MyReservations;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homepage');
 });
 
 // Auth routes - only accessible by guests
