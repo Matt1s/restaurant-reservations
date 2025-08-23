@@ -26,8 +26,10 @@
                             <button type="submit" class="text-gray-700 hover:text-gray-900">Logout</button>
                         </form>
                     @else
-                        <a href="/login" class="bg-amber-800 rounded-md font-bold py-2 px-4 text-white hover:text-gray-200">Login</a>
-                        <a href="/register" class="border-1 bg-amber-400 rounded-md font-bold py-2 px-4 text-white hover:text-gray-700">Register</a>
+                        <a href="/login"
+                            class="block bg-amber-800 rounded-md font-bold py-2 px-4 text-white hover:text-gray-200">Login</a>
+                        <a href="/register"
+                            class="hidden sm:block border-1 bg-amber-400 rounded-md font-bold py-2 px-4 text-white hover:text-gray-700">Register</a>
                     @endauth
                 </div>
             </div>
