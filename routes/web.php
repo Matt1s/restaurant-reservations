@@ -27,7 +27,7 @@ Route::middleware('auth')->post('/logout', function () {
 
 // Protected routes - only accessible by authenticated users
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', ReservationForm::class)->name('dashboard');
+    Route::get('/reservation', ReservationForm::class)->name('reservation');
     Route::get('/reserve', ReservationForm::class)->name('reserve');
     Route::get('/my-reservations', MyReservations::class)->name('my-reservations');
 });

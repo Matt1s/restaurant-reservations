@@ -23,7 +23,7 @@ class Login extends Component
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/reservation');
         }
 
         $this->addError('email', 'Invalid credentials.');

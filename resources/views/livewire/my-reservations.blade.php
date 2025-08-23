@@ -55,7 +55,7 @@
     @else
         <div class="bg-white rounded-lg shadow-md p-8 text-center">
             <p class="text-gray-500 mb-4">You don't have any reservations yet.</p>
-            <a href="/dashboard" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="/reservation" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Make a Reservation
             </a>
         </div>

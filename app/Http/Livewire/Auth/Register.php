@@ -33,7 +33,7 @@ class Register extends Component
 
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect('/reservation');
     }
 
     public function render()
