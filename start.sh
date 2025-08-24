@@ -15,9 +15,18 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
+# Clear all cached config to ensure runtime environment is used
+echo "🧹 Clearing cached configuration..."
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
+
 # Only run database operations if DATABASE_URL is set (indicating database is available)
 if [ -n "$DATABASE_URL" ]; then
     echo "🗄️  Database detected, setting up..."
+    echo "📊 Database connection: $DB_CONNECTION"
+    echo "🔗 Database URL: ${DATABASE_URL:0:20}..." # Show first 20 chars only for security
     
     # Wait for database to be ready
     echo "⏳ Waiting for database connection..."
@@ -55,9 +64,8 @@ else
     echo "⚠️  No DATABASE_URL found, skipping database setup"
 fi
 
-# Clear and cache configuration
-echo "⚡ Optimizing application..."
-php artisan config:clear
+# Cache configuration with runtime environment
+echo "⚡ Optimizing application with runtime config..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
