@@ -10,17 +10,27 @@ A modern Laravel-based restaurant reservation system built with Livewire and Tai
 - 📱 Responsive design
 - ⚡ Built with Laravel 12 and Livewire 3
 
-## Live Demo
+## 🚀 Live Demo
 
-Visit the live application at: [https://matt1s.github.io/restaurant-reservations](https://matt1s.github.io/restaurant-reservations)
+**Deploy to Railway**: [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/LxfO7u)
+
+This application is optimized for [Railway](https://railway.app) deployment with zero configuration required.
+
+### Quick Deploy Steps:
+1. Click the Railway button above (or go to [railway.app](https://railway.app))
+2. Connect your GitHub account
+3. Select this repository
+4. Railway automatically detects Laravel and deploys it
+
+**Local demo**: `php artisan serve` after following the setup steps below.
 
 ## Technologies Used
 
 - **Backend**: Laravel 12, PHP 8.2
 - **Frontend**: Livewire 3, Tailwind CSS 4, Vite
-- **Database**: SQLite (for simplicity and GitHub Pages compatibility)
+- **Database**: SQLite (development) / PostgreSQL (Railway production)
 - **Testing**: Pest PHP
-- **Deployment**: GitHub Actions + GitHub Pages
+- **Deployment**: Railway with automatic CI/CD
 
 ## Quick Start
 
@@ -58,7 +68,9 @@ Visit the live application at: [https://matt1s.github.io/restaurant-reservations
 
 ### Deployment
 
-This project includes automated GitHub Actions workflows for deployment to GitHub Pages. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+This project is optimized for Railway deployment. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
+
+**One-click deploy**: Use the Railway button above or connect your GitHub repo at [railway.app](https://railway.app).
 
 ## Project Structure
 

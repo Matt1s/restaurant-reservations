@@ -1,100 +1,148 @@
-# Deployment Guide
+# Railway Deployment Guide
 
-This repository includes GitHub Actions workflows for automated deployment. There are two deployment options available:
+This Laravel application is optimized for deployment on [Railway](https://railway.app), a modern platform that automatically detects and deploys Laravel applications.
 
-## Option 1: Full Laravel Deployment (`deploy.yml`)
+## 🚀 Quick Deploy to Railway
 
-This workflow includes both testing and deployment phases:
-- Runs all PHPUnit/Pest tests
-- Builds the complete Laravel application
-- Deploys to GitHub Pages with database and full functionality
+### Option 1: One-Click Deploy (Recommended)
+1. Go to [railway.app](https://railway.app)
+2. Sign up/login with your GitHub account
+3. Click "New Project" → "Deploy from GitHub repo"
+4. Select this repository
+5. Railway will automatically:
+   - Detect it's a Laravel app
+   - Install PHP and Node.js dependencies
+   - Build assets with Vite
+   - Run migrations
+   - Deploy your app
 
-### Features:
-- ✅ Complete test suite execution
-- ✅ Full Laravel application deployment
-- ✅ Database migrations and seeding
-- ✅ Production optimizations (caching, etc.)
-- ✅ Asset compilation
+### Option 2: Railway CLI
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
 
-## Option 2: Static Deployment (`static-deploy.yml`)
+# Login
+railway login
 
-This is a simpler workflow that focuses only on deployment:
-- Builds and deploys just the public assets
-- Faster deployment time
-- Better for static hosting scenarios
-
-### Features:
-- ✅ Quick deployment
-- ✅ Asset compilation
-- ✅ Basic Laravel setup
-- ✅ Database setup
-
-## Setup Instructions
-
-1. **Enable GitHub Pages**:
-   - Go to your repository Settings
-   - Navigate to "Pages" in the left sidebar
-   - Under "Source", select "GitHub Actions"
-
-2. **Environment Variables** (if needed):
-   - Go to repository Settings → Secrets and variables → Actions
-   - Add any required environment variables
-
-3. **Choose Your Workflow**:
-   - Use `deploy.yml` for full functionality with testing
-   - Use `static-deploy.yml` for faster, simpler deployment
-
-4. **Trigger Deployment**:
-   - Push to the `main` branch
-   - Or manually trigger via Actions tab
-
-## Configuration Files
-
-- `.env.production`: Production environment configuration
-- `public/.htaccess`: Web server configuration for proper routing
-
-## Accessing Your Site
-
-After successful deployment, your site will be available at:
-```
-https://[your-username].github.io/[repository-name]
+# Deploy
+railway deploy
 ```
 
-For this repository:
-```
-https://matt1s.github.io/restaurant-reservations
-```
+## ⚙️ Railway Configuration
 
-## Troubleshooting
+This repository includes Railway-optimized configuration:
 
-1. **Build Failures**: Check the Actions tab for detailed error logs
-2. **Missing Assets**: Ensure `npm run build` completes successfully
-3. **Database Issues**: Verify migration files are present and valid
-4. **Environment Issues**: Check that `.env.production` has correct settings
+- **`railway.json`**: Railway project configuration
+- **`nixpacks.toml`**: Build and deployment instructions
+- **`.env.production`**: Production environment template
 
-## Local Testing
+## 🛠️ Environment Variables
 
-To test the production build locally:
+Railway will automatically set most variables, but you may want to configure:
+
+1. Go to your Railway project dashboard
+2. Navigate to "Variables" tab
+3. Add any custom environment variables:
+   ```
+   APP_NAME=Restaurant Reservations
+   APP_ENV=production
+   APP_DEBUG=false
+   ```
+
+## 🗄️ Database Setup
+
+Railway provides several database options:
+
+### Option 1: PostgreSQL (Recommended)
+1. In Railway dashboard, click "New" → "Database" → "PostgreSQL"
+2. Railway automatically sets `DATABASE_URL`
+3. Update your migration commands if needed
+
+### Option 2: SQLite (Default)
+- Already configured in the repository
+- Works out of the box
+- Good for demos and small applications
+
+## 🔄 Automatic Deployments
+
+Once connected to Railway:
+- ✅ **Every push to `main`** triggers automatic deployment
+- ✅ **Pull requests** can be configured for preview deployments
+- ✅ **GitHub Actions CI** runs tests before deployment
+
+## 📊 Monitoring
+
+Railway provides built-in monitoring:
+- **Logs**: Real-time application logs
+- **Metrics**: CPU, memory, and network usage
+- **Deployments**: History and rollback options
+
+## 🔧 Local Development
+
+Test your app locally before deploying:
 
 ```bash
-# Copy production environment
-cp .env.production .env
-
 # Install dependencies
-composer install --optimize-autoloader --no-dev
-npm ci
+composer install
+npm install
+
+# Setup environment
+cp .env.example .env
+php artisan key:generate
 
 # Build assets
 npm run build
 
 # Setup database
-php artisan migrate:fresh --seed
+touch database/database.sqlite
+php artisan migrate --seed
 
-# Optimize
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# Serve
+# Serve locally
 php artisan serve
 ```
+
+## 🚨 Troubleshooting
+
+### Build Issues
+- Check the "Deployments" tab for build logs
+- Ensure all dependencies are in `composer.json` and `package.json`
+
+### Environment Issues
+- Verify environment variables in Railway dashboard
+- Check that `APP_KEY` is set (Railway should auto-generate this)
+
+### Database Issues
+- Ensure migrations run successfully
+- Check database connection in Railway variables
+
+## 📈 Performance Tips
+
+1. **Enable caching**:
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+
+2. **Optimize Composer autoloader**:
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   ```
+
+3. **Use Railway's CDN** for static assets
+
+## 🎯 Next Steps
+
+1. **Deploy to Railway** using the steps above
+2. **Configure custom domain** (optional)
+3. **Set up monitoring** and alerts
+4. **Add staging environment** for testing
+
+## 💡 Why Railway?
+
+- ✅ **Zero configuration** Laravel deployment
+- ✅ **Automatic HTTPS** and custom domains
+- ✅ **Built-in database** options
+- ✅ **GitHub integration** for automatic deployments
+- ✅ **Fair pricing** with generous free tier
+- ✅ **Modern infrastructure** with fast deployment times
