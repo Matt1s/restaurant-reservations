@@ -38,16 +38,27 @@ This repository includes Railway-optimized configuration:
 
 ## 🛠️ Environment Variables
 
-Railway will automatically set most variables, but you may want to configure:
+Railway will automatically detect most settings, but you may want to configure these in the Railway dashboard:
 
+### Required Variables (Railway usually sets these automatically):
+```bash
+APP_KEY=base64:your-generated-key  # Auto-generated if not set
+APP_URL=https://your-app.railway.app  # Auto-set by Railway
+PORT=8080  # Set by Railway
+```
+
+### Optional Variables:
+```bash
+APP_ENV=production
+APP_DEBUG=false
+LOG_LEVEL=error
+DB_CONNECTION=sqlite  # or pgsql if using PostgreSQL
+```
+
+### Setting Variables in Railway:
 1. Go to your Railway project dashboard
 2. Navigate to "Variables" tab
-3. Add any custom environment variables:
-   ```
-   APP_NAME=Restaurant Reservations
-   APP_ENV=production
-   APP_DEBUG=false
-   ```
+3. Add variables as needed (most are set automatically)
 
 ## 🗄️ Database Setup
 
