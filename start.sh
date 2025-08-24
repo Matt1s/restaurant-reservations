@@ -9,6 +9,11 @@ if [ ! -f .env ]; then
     cp .env.production .env
 fi
 
+# Ensure the database directory exists and create SQLite file as fallback
+echo "📁 Creating database directory and SQLite fallback..."
+mkdir -p database
+touch database/database.sqlite
+
 # Generate APP_KEY if not set
 if [ -z "$APP_KEY" ]; then
     echo "🔑 Generating application key..."
@@ -16,12 +21,19 @@ if [ -z "$APP_KEY" ]; then
 fi
 
 # Clear all cached config to ensure runtime environment is used
-# Use || true to ignore errors from cache commands when SQLite files don't exist
+# Use || true to ignore errors from cache commands
 echo "🧹 Clearing cached configuration..."
 php artisan config:clear || true
 php artisan route:clear || true
 php artisan view:clear || true
 php artisan cache:clear || true
+
+# Explicitly set session driver to file to prevent any cached config issues
+export SESSION_DRIVER=file
+export CACHE_STORE=file
+
+echo "📧 Session driver: $SESSION_DRIVER"
+echo "💾 Cache store: $CACHE_STORE"
 
 # Only run database operations if DATABASE_URL is set (indicating database is available)
 if [ -n "$DATABASE_URL" ]; then
@@ -62,7 +74,10 @@ if [ -n "$DATABASE_URL" ]; then
         fi
     fi
 else
-    echo "⚠️  No DATABASE_URL found, skipping database setup"
+    echo "⚠️  No DATABASE_URL found, using SQLite for main database"
+    # If no MySQL, run migrations on SQLite
+    php artisan migrate --force || true
+    php artisan db:seed --force || true
 fi
 
 # Cache configuration with runtime environment (after database is ready)
