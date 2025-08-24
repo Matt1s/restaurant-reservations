@@ -17,7 +17,12 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => \App\Models\User::factory(),
+            'table_id' => \App\Models\Table::factory(),
+            'reservation_datetime' => $this->faker->dateTimeBetween('+1 day', '+30 days'),
+            'party_size' => $this->faker->numberBetween(1, 8),
+            'special_requests' => $this->faker->optional()->sentence(),
+            'status' => 'confirmed',
         ];
     }
 }

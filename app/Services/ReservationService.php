@@ -24,6 +24,10 @@ class ReservationService
     {
         $table = Table::findOrFail($tableId);
         
+        if (!$table->is_active) {
+            throw new \Exception('Table is not currently available for reservations.');
+        }
+        
         if (!$table->isAvailableAt($datetime)) {
             throw new \Exception('Table is not available at this time.');
         }

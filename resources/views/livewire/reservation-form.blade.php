@@ -416,7 +416,11 @@
                                         </svg>
                                         <span class="font-semibold text-gray-700">Table:</span>
                                     </div>
-                                    <p class="text-gray-800 font-bold">{{ $available_tables->find($selected_table_id)->name ?? '' }}</p>
+                                    <p class="text-gray-800 font-bold">
+                                        @if($selected_table_id && $available_tables && $available_tables->count() > 0)
+                                            {{ $available_tables->where('id', $selected_table_id)->first()->name ?? 'Selected Table' }}
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
