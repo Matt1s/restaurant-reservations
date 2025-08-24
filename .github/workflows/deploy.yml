@@ -25,7 +25,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
 
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -34,7 +33,7 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Install NPM Dependencies
-      run: npm ci
+      run: npm install
 
     - name: Build assets
       run: npm run build
@@ -85,7 +84,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
 
     - name: Copy .env for production
       run: |
@@ -96,7 +94,7 @@ jobs:
       run: composer install --optimize-autoloader --no-dev
 
     - name: Install NPM Dependencies
-      run: npm ci
+      run: npm install
 
     - name: Build assets for production
       run: npm run build
