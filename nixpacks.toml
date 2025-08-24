@@ -18,9 +18,11 @@ cmds = [
     "php artisan config:cache --no-interaction || echo 'Config cache skipped'",
     "php artisan route:cache --no-interaction || echo 'Route cache skipped'",
     "php artisan view:cache --no-interaction || echo 'View cache skipped'",
-    # Make start script executable
-    "chmod +x start.sh"
+    # Make start script executable with explicit permissions
+    "ls -la start.sh",
+    "chmod 755 start.sh",
+    "ls -la start.sh"
 ]
 
 [start]
-cmd = "./start.sh"
+cmd = "bash start.sh"
