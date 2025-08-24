@@ -33,7 +33,7 @@ jobs:
           node-version: '20'
 
       - name: Install PHP dependencies
-        run: composer install --optimize-autoloader --no-dev --no-interaction
+        run: composer install --no-interaction
 
       - name: Install NPM dependencies
         run: npm install
@@ -53,6 +53,11 @@ jobs:
           touch database/database.sqlite
           php artisan migrate --force
           php artisan db:seed --force
+
+      - name: Optimize for production (after seeding)
+        run: |
+          # Now install without dev dependencies for the final build
+          composer install --optimize-autoloader --no-dev --no-interaction
 
       - name: Optimize for production
         run: |
