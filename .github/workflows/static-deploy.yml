@@ -54,10 +54,11 @@ jobs:
           php artisan migrate --force
           php artisan db:seed --force
 
-      - name: Optimize for production (after seeding)
+      - name: Optimize for production
         run: |
-          # Now install without dev dependencies for the final build
-          composer install --optimize-autoloader --no-dev --no-interaction
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
 
       - name: Optimize for production
         run: |
