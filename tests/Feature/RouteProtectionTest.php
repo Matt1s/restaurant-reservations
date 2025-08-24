@@ -137,14 +137,14 @@ describe('Route Protection', function () {
 
         it('handles session regeneration on login', function () {
             $user = User::factory()->create([
-                'email' => 'test@example.com',
-                'password' => bcrypt('password'),
+                'email' => 'user@user.com',
+                'password' => bcrypt('password123'),
             ]);
 
             // Use Livewire Login component instead of direct POST
             Livewire::test(\App\Http\Livewire\Auth\Login::class)
-                ->set('email', 'test@example.com')
-                ->set('password', 'password')
+                ->set('email', 'user@user.com')
+                ->set('password', 'password123')
                 ->call('login')
                 ->assertRedirect('/reservation');
 
