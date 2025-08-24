@@ -16,11 +16,12 @@ if [ -z "$APP_KEY" ]; then
 fi
 
 # Clear all cached config to ensure runtime environment is used
+# Use || true to ignore errors from cache commands when SQLite files don't exist
 echo "🧹 Clearing cached configuration..."
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan cache:clear
+php artisan config:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
+php artisan cache:clear || true
 
 # Only run database operations if DATABASE_URL is set (indicating database is available)
 if [ -n "$DATABASE_URL" ]; then
@@ -53,7 +54,7 @@ if [ -n "$DATABASE_URL" ]; then
         
         # Seed database (only if tables are empty)
         echo "🌱 Checking if seeding is needed..."
-        if [ "$(php artisan tinker --execute="echo \App\Models\User::count();")" = "0" ]; then
+        if [ "$(php artisan tinker --execute="echo \App\Models\User::count();" 2>/dev/null || echo "0")" = "0" ]; then
             echo "🌱 Seeding database..."
             php artisan db:seed --force
         else
@@ -64,7 +65,7 @@ else
     echo "⚠️  No DATABASE_URL found, skipping database setup"
 fi
 
-# Cache configuration with runtime environment
+# Cache configuration with runtime environment (after database is ready)
 echo "⚡ Optimizing application with runtime config..."
 php artisan config:cache
 php artisan route:cache
