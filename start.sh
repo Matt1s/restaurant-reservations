@@ -1,6 +1,6 @@
 #!/bin/bash
+set -e
 
-# Railway startup script for Laravel
 echo "🚀 Starting Laravel application..."
 
 # Ensure .env exists
@@ -15,25 +15,45 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
-# Wait for database to be ready and run migrations
-echo "🗄️  Setting up database..."
-echo "⏳ Waiting for database connection..."
-
-# Wait for database to be available
-until php artisan migrate:status > /dev/null 2>&1; do
-    echo "⏳ Waiting for database to be ready..."
-    sleep 2
-done
-
-echo "✅ Database is ready!"
-
-# Run migrations
-echo "📋 Running migrations..."
-php artisan migrate --force
-
-# Seed database if needed
-echo "🌱 Seeding database..."
-php artisan db:seed --force
+# Only run database operations if DATABASE_URL is set (indicating database is available)
+if [ -n "$DATABASE_URL" ]; then
+    echo "🗄️  Database detected, setting up..."
+    
+    # Wait for database to be ready
+    echo "⏳ Waiting for database connection..."
+    max_attempts=30
+    attempt=1
+    
+    while [ $attempt -le $max_attempts ]; do
+        if php artisan migrate:status > /dev/null 2>&1; then
+            echo "✅ Database is ready!"
+            break
+        fi
+        
+        echo "⏳ Attempt $attempt/$max_attempts - waiting for database..."
+        sleep 2
+        attempt=$((attempt + 1))
+    done
+    
+    if [ $attempt -gt $max_attempts ]; then
+        echo "❌ Database connection timeout. Starting without database setup."
+    else
+        # Run migrations
+        echo "📋 Running migrations..."
+        php artisan migrate --force
+        
+        # Seed database (only if tables are empty)
+        echo "🌱 Checking if seeding is needed..."
+        if [ "$(php artisan tinker --execute="echo \App\Models\User::count();")" = "0" ]; then
+            echo "🌱 Seeding database..."
+            php artisan db:seed --force
+        else
+            echo "✅ Database already seeded"
+        fi
+    fi
+else
+    echo "⚠️  No DATABASE_URL found, skipping database setup"
+fi
 
 # Clear and cache configuration
 echo "⚡ Optimizing application..."

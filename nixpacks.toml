@@ -4,13 +4,20 @@ nixPkgs = ["...", "php82", "php82Packages.composer", "nodejs-18_x"]
 
 [phases.install]
 cmds = [
-    "composer install --optimize-autoloader --no-dev",
+    "composer install --optimize-autoloader --no-dev --no-interaction",
     "npm ci",
     "npm run build"
 ]
 
 [phases.build]
 cmds = [
+    # Copy environment file for build phase (without database operations)
+    "cp .env.example .env",
+    "php artisan key:generate --force",
+    # Cache config without database
+    "php artisan config:cache --no-interaction || echo 'Config cache skipped'",
+    "php artisan route:cache --no-interaction || echo 'Route cache skipped'",
+    "php artisan view:cache --no-interaction || echo 'View cache skipped'",
     # Make start script executable
     "chmod +x start.sh"
 ]
