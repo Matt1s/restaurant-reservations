@@ -15,12 +15,23 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
-# Ensure database exists and run migrations
+# Wait for database to be ready and run migrations
 echo "🗄️  Setting up database..."
-touch database/database.sqlite
+echo "⏳ Waiting for database connection..."
+
+# Wait for database to be available
+until php artisan migrate:status > /dev/null 2>&1; do
+    echo "⏳ Waiting for database to be ready..."
+    sleep 2
+done
+
+echo "✅ Database is ready!"
+
+# Run migrations
+echo "📋 Running migrations..."
 php artisan migrate --force
 
-# Seed database if empty
+# Seed database if needed
 echo "🌱 Seeding database..."
 php artisan db:seed --force
 

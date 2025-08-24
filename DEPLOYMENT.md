@@ -64,15 +64,20 @@ DB_CONNECTION=sqlite  # or pgsql if using PostgreSQL
 
 Railway provides several database options:
 
-### Option 1: PostgreSQL (Recommended)
-1. In Railway dashboard, click "New" → "Database" → "PostgreSQL"
-2. Railway automatically sets `DATABASE_URL`
-3. Update your migration commands if needed
+### Option 1: MySQL (Recommended for this app)
+1. In Railway dashboard, click "New" → "Database" → "MySQL"
+2. Railway automatically sets `DATABASE_URL` and connection variables
+3. Your app will automatically connect using the provided credentials
 
-### Option 2: SQLite (Default)
-- Already configured in the repository
-- Works out of the box
-- Good for demos and small applications
+### Option 2: PostgreSQL
+1. In Railway dashboard, click "New" → "Database" → "PostgreSQL"  
+2. Update `DB_CONNECTION=pgsql` in Railway variables
+3. Railway automatically sets `DATABASE_URL`
+
+### Important: Database Connection
+- Railway automatically provides `DATABASE_URL` environment variable
+- All database credentials are automatically configured
+- No manual database setup required
 
 ## 🔄 Automatic Deployments
 
