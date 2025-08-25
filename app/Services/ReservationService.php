@@ -49,12 +49,22 @@ class ReservationService
     public function getTimeSlots($date)
     {
         $slots = [];
-        $start = Carbon::parse($date)->setTime(12, 0); // 12:00 PM
-        $end = Carbon::parse($date)->setTime(22, 0);   // 10:00 PM
+        $pragueTime = Carbon::now('Europe/Prague');
+        $reservationDate = Carbon::parse($date, 'Europe/Prague');
+        
+        // Restaurant hours: 17:00 - 21:00 (5PM - 9PM)
+        $start = $reservationDate->copy()->setTime(17, 0);
+        $end = $reservationDate->copy()->setTime(21, 0);
 
         while ($start <= $end) {
+            // If it's today, only show times that are in the future (Prague timezone)
+            if ($reservationDate->isToday() && $start->lte($pragueTime)) {
+                $start->addHour();
+                continue;
+            }
+            
             $slots[] = $start->format('H:i');
-            $start->addMinutes(30);
+            $start->addHour();
         }
 
         return $slots;

@@ -196,7 +196,7 @@
                                 </label>
                                 <input type="date" 
                                        wire:model.live="reservation_date" 
-                                       min="{{ now()->format('Y-m-d') }}"
+                                       min="{{ \Carbon\Carbon::now('Europe/Prague')->format('Y-m-d') }}"
                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-200">
                                 @error('reservation_date') 
                                     <span class="text-red-500 text-sm flex items-center mt-1">

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,7 +38,8 @@ class Reservation extends Model
 
     public function canBeCancelled()
     {
+        $pragueNow = Carbon::now('Europe/Prague')->addHours(2);
         return $this->status === 'confirmed' && 
-               $this->reservation_datetime > now()->addHours(2);
+               $this->reservation_datetime->setTimezone('Europe/Prague') > $pragueNow;
     }
 }

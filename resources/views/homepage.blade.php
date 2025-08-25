@@ -45,7 +45,8 @@
                                         <div>
                                             <label class="block text-sm font-medium mb-2">Date</label>
                                             <input type="date" name="date"
-                                                value="{{ date('Y-m-d', strtotime('+1 day')) }}"
+                                                value="{{ \Carbon\Carbon::now('Europe/Prague')->addDay()->format('Y-m-d') }}"
+                                                min="{{ \Carbon\Carbon::now('Europe/Prague')->format('Y-m-d') }}"
                                                 class="w-full px-3 py-2 border border-amber-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500">
                                         </div>
                                         <div>

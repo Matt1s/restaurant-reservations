@@ -32,9 +32,9 @@ class ReservationForm extends Component
         // Check for URL parameters from homepage form
         $hasUrlParams = $this->parseUrlParameters();
         
-        // Set default date if not provided
+        // Set default date if not provided (Prague timezone)
         if (!$this->reservation_date) {
-            $this->reservation_date = now()->addDay()->format('Y-m-d');
+            $this->reservation_date = Carbon::now('Europe/Prague')->addDay()->format('Y-m-d');
         }
         
         $this->time_slots = $this->reservationService->getTimeSlots($this->reservation_date);
@@ -100,10 +100,12 @@ class ReservationForm extends Component
         if (!$date) return false;
         
         try {
-            $carbonDate = Carbon::parse($date);
+            $carbonDate = Carbon::parse($date, 'Europe/Prague');
+            $pragueNow = Carbon::now('Europe/Prague');
+            
             return $carbonDate->isValid() && 
                    $carbonDate->format('Y-m-d') === $date &&
-                   $carbonDate->isToday() || $carbonDate->isFuture();
+                   ($carbonDate->isToday() || $carbonDate->isFuture());
         } catch (\Exception $e) {
             return false;
         }
@@ -132,12 +134,64 @@ class ReservationForm extends Component
     }
 
     protected $rules = [
-        'reservation_date' => 'required|date|after_or_equal:today',
+        'reservation_date' => 'required|date',
         'reservation_time' => 'required',
         'party_size' => 'required|integer|min:1|max:12',
         'selected_table_id' => 'required|exists:tables,id',
         'special_requests' => 'nullable|string|max:500',
     ];
+
+    public function updated($propertyName)
+    {
+        // Custom validation for Prague timezone
+        if ($propertyName === 'reservation_date') {
+            $this->validateDate();
+        }
+        
+        if ($propertyName === 'reservation_time') {
+            $this->validateTime();
+        }
+    }
+
+    private function validateDate()
+    {
+        if (!$this->reservation_date) return;
+        
+        try {
+            $pragueNow = Carbon::now('Europe/Prague');
+            $reservationDate = Carbon::parse($this->reservation_date, 'Europe/Prague');
+            
+            if ($reservationDate->isBefore($pragueNow->startOfDay())) {
+                $this->addError('reservation_date', 'Reservation date cannot be in the past (Prague time).');
+                return;
+            }
+        } catch (\Exception $e) {
+            $this->addError('reservation_date', 'Invalid date format.');
+        }
+    }
+
+    private function validateTime()
+    {
+        if (!$this->reservation_time || !$this->reservation_date) return;
+        
+        try {
+            $pragueNow = Carbon::now('Europe/Prague');
+            $reservationDateTime = Carbon::parse($this->reservation_date . ' ' . $this->reservation_time, 'Europe/Prague');
+            
+            if ($reservationDateTime->isPast()) {
+                $this->addError('reservation_time', 'Reservation time cannot be in the past (Prague time).');
+                return;
+            }
+            
+            // Check if time is within restaurant hours
+            $allowedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
+            if (!in_array($this->reservation_time, $allowedTimes)) {
+                $this->addError('reservation_time', 'Please select a time between 5:00 PM and 9:00 PM.');
+            }
+        } catch (\Exception $e) {
+            $this->addError('reservation_time', 'Invalid time format.');
+        }
+    }
 
     public function updatedReservationDate()
     {
@@ -159,7 +213,7 @@ class ReservationForm extends Component
     public function checkAvailability()
     {
         if ($this->reservation_date && $this->reservation_time && $this->party_size) {
-            $datetime = Carbon::parse($this->reservation_date . ' ' . $this->reservation_time);
+            $datetime = Carbon::parse($this->reservation_date . ' ' . $this->reservation_time, 'Europe/Prague');
             
             $this->available_tables = $this->reservationService
                 ->getAvailableTables($datetime, $this->party_size);
@@ -188,7 +242,7 @@ class ReservationForm extends Component
         $this->validate();
 
         try {
-            $datetime = Carbon::parse($this->reservation_date . ' ' . $this->reservation_time);
+            $datetime = Carbon::parse($this->reservation_date . ' ' . $this->reservation_time, 'Europe/Prague');
             
             $this->reservationService->createReservation(
                 auth()->id(),
