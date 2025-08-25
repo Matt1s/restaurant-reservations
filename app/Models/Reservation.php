@@ -39,7 +39,7 @@ class Reservation extends Model
     public function canBeCancelled()
     {
         $pragueNow = Carbon::now('Europe/Prague')->addHours(2);
-        return $this->status === 'confirmed' && 
+        return in_array($this->status, ['confirmed', 'pending']) && 
                $this->reservation_datetime->setTimezone('Europe/Prague') > $pragueNow;
     }
 }
