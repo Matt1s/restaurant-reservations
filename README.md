@@ -53,9 +53,8 @@ A modern, restaurant reservation system built with Laravel 11, Livewire 3, and T
    php artisan migrate --seed
    ```
 
-5. **Build assets and start the server**
+5. **Start the server**
    ```bash
-   npm run dev &
    php artisan serve
    ```
 
