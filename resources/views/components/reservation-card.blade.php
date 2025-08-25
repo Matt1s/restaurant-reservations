@@ -23,7 +23,7 @@
     };
 @endphp
 
-<div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
+<div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 transform flex flex-col h-full">
     <!-- Status Header -->
     <div class="px-6 py-4 
         @if($reservation->status === 'confirmed') bg-green-500
