@@ -96,9 +96,9 @@
 
         @if($reservations->count() > 0)
             <!-- Reservations Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                 @foreach($reservations as $reservation)
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 transform flex flex-col h-full">
                         <!-- Status Header -->
                         <div class="px-6 py-4 
                             @if($reservation->status === 'confirmed') bg-green-500
@@ -116,70 +116,72 @@
                         </div>
 
                         <!-- Reservation Details -->
-                        <div class="p-6">
-                            <!-- Customer Info -->
-                            <div class="mb-4">
-                                <div class="flex items-center text-gray-700 mb-2">
-                                    <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <div>
-                                        <div class="font-semibold text-lg text-gray-900">
-                                            {{ $reservation->user->name }}
-                                        </div>
-                                        <div class="text-gray-600 text-sm">
-                                            {{ $reservation->user->email }}
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <!-- Customer Info -->
+                                <div class="mb-4">
+                                    <div class="flex items-center text-gray-700 mb-2">
+                                        <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <div>
+                                            <div class="font-semibold text-lg text-gray-900">
+                                                {{ $reservation->user->name }}
+                                            </div>
+                                            <div class="text-gray-600 text-sm">
+                                                {{ $reservation->user->email }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Date and Time -->
-                            <div class="mb-4">
-                                <div class="flex items-center text-gray-700 mb-2">
-                                    <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <div>
-                                        <div class="font-semibold text-gray-900">
-                                            {{ $reservation->reservation_datetime->format('M j, Y') }}
+                                <!-- Date and Time -->
+                                <div class="mb-4">
+                                    <div class="flex items-center text-gray-700 mb-2">
+                                        <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <div>
+                                            <div class="font-semibold text-gray-900">
+                                                {{ $reservation->reservation_datetime->format('M j, Y') }}
+                                            </div>
+                                            <div class="text-gray-600">
+                                                {{ $reservation->reservation_datetime->format('g:i A') }}
+                                            </div>
                                         </div>
-                                        <div class="text-gray-600">
-                                            {{ $reservation->reservation_datetime->format('g:i A') }}
+                                    </div>
+                                </div>
+
+                                <!-- Table and Party Size -->
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div class="flex items-center text-gray-700">
+                                        <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                        </svg>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Table</div>
+                                            <div class="font-semibold">{{ $reservation->table->name ?? 'N/A' }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center text-gray-700">
+                                        <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                                        </svg>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Party Size</div>
+                                            <div class="font-semibold">{{ $reservation->party_size }} {{ $reservation->party_size == 1 ? 'person' : 'people' }}</div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Table and Party Size -->
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div class="flex items-center text-gray-700">
-                                    <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
-                                    </svg>
-                                    <div>
-                                        <div class="text-sm text-gray-500">Table</div>
-                                        <div class="font-semibold">{{ $reservation->table->name ?? 'N/A' }}</div>
+                                <!-- Special Requests -->
+                                @if($reservation->special_requests)
+                                    <div class="mb-4 p-3 bg-gray-50 rounded-md">
+                                        <div class="text-sm text-gray-500 mb-1">Special Requests</div>
+                                        <div class="text-gray-700">{{ $reservation->special_requests }}</div>
                                     </div>
-                                </div>
-                                <div class="flex items-center text-gray-700">
-                                    <svg class="w-5 h-5 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
-                                    </svg>
-                                    <div>
-                                        <div class="text-sm text-gray-500">Party Size</div>
-                                        <div class="font-semibold">{{ $reservation->party_size }} {{ $reservation->party_size == 1 ? 'person' : 'people' }}</div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
-
-                            <!-- Special Requests -->
-                            @if($reservation->special_requests)
-                                <div class="mb-4 p-3 bg-gray-50 rounded-md">
-                                    <div class="text-sm text-gray-500 mb-1">Special Requests</div>
-                                    <div class="text-gray-700">{{ $reservation->special_requests }}</div>
-                                </div>
-                            @endif
 
                             <!-- Admin Actions -->
                             <div class="mt-6 space-y-2">
