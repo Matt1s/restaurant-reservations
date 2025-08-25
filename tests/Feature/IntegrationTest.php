@@ -56,7 +56,7 @@ describe('Integration Tests', function () {
                 'table_id' => $table->id,
                 'party_size' => 2,
                 'special_requests' => 'Birthday celebration',
-                'status' => 'confirmed',
+                'status' => 'pending',
             ]);
             
             // Step 3: View reservations

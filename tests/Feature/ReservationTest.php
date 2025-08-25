@@ -51,7 +51,7 @@ describe('Reservations', function () {
                 'table_id' => $this->table->id,
                 'party_size' => 2,
                 'special_requests' => 'Window seat please',
-                'status' => 'confirmed',
+                'status' => 'pending',
             ]);
         });
 

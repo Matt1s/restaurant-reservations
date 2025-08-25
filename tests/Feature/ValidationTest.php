@@ -29,7 +29,7 @@ describe('Validation', function () {
 
         it('requires reservation date to be today or future', function () {
             Livewire::test(ReservationForm::class)
-                ->set('reservation_date', Carbon::yesterday()->format('Y-m-d'))
+                ->set('reservation_date', '2023-01-01') // Clearly in the past
                 ->set('reservation_time', '19:00')
                 ->set('party_size', 2)
                 ->set('selected_table_id', $this->table->id)
@@ -228,7 +228,7 @@ describe('Validation', function () {
             
             // Test past date
             Livewire::test(ReservationForm::class)
-                ->set('reservation_date', Carbon::yesterday()->format('Y-m-d'))
+                ->set('reservation_date', '2023-01-01') // Clearly in the past
                 ->set('reservation_time', '19:00')
                 ->set('party_size', 2)
                 ->set('selected_table_id', $this->table->id)

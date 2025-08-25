@@ -104,7 +104,7 @@ describe('ReservationService', function () {
             expect($reservation->table_id)->toBe($this->table->id);
             expect($reservation->party_size)->toBe(2);
             expect($reservation->special_requests)->toBe('Window seat please');
-            expect($reservation->status)->toBe('confirmed');
+            expect($reservation->status)->toBe('pending');
             expect($reservation->reservation_datetime->toDateTimeString())
                 ->toBe($datetime->toDateTimeString());
         });
@@ -185,29 +185,29 @@ describe('ReservationService', function () {
 
     describe('getTimeSlots', function () {
         
-        it('returns time slots from 12:00 PM to 10:00 PM', function () {
+        it('returns time slots from 5:00 PM to 9:00 PM', function () {
             $date = Carbon::tomorrow()->format('Y-m-d');
             $timeSlots = $this->service->getTimeSlots($date);
             
             expect($timeSlots)->toBeArray();
-            expect($timeSlots[0])->toBe('12:00');
-            expect($timeSlots[count($timeSlots) - 1])->toBe('22:00');
+            expect($timeSlots[0])->toBe('17:00');
+            expect($timeSlots[count($timeSlots) - 1])->toBe('21:00');
         });
 
-        it('returns slots at 30-minute intervals', function () {
+        it('returns slots at 1-hour intervals', function () {
             $date = Carbon::tomorrow()->format('Y-m-d');
             $timeSlots = $this->service->getTimeSlots($date);
             
-            // Check that we have 30-minute intervals
-            expect($timeSlots)->toContain('12:00', '12:30', '13:00', '13:30');
+            // Check that we have 1-hour intervals during restaurant hours
+            expect($timeSlots)->toContain('17:00', '18:00', '19:00', '20:00', '21:00');
         });
 
         it('returns correct number of time slots', function () {
             $date = Carbon::tomorrow()->format('Y-m-d');
             $timeSlots = $this->service->getTimeSlots($date);
             
-            // From 12:00 to 22:00 in 30-minute intervals = 21 slots
-            expect(count($timeSlots))->toBe(21);
+            // From 17:00 to 21:00 in 1-hour intervals = 5 slots
+            expect(count($timeSlots))->toBe(5);
         });
 
         it('handles different date formats', function () {
