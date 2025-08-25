@@ -17,6 +17,7 @@ A modern, restaurant reservation system built with Laravel 11, Livewire 3, and T
 - PHP 8.2 or higher
 - Composer
 - Node.js & NPM
+- MySQL 8.0 or higher
 
 ### Installation
 
@@ -40,7 +41,15 @@ A modern, restaurant reservation system built with Laravel 11, Livewire 3, and T
 
 4. **Database setup**
    ```bash
-   touch database/database.sqlite
+   # Create a MySQL database named 'restaurant_reservations'
+   # Update your .env file with your MySQL credentials:
+   # DB_CONNECTION=mysql
+   # DB_HOST=127.0.0.1
+   # DB_PORT=3306
+   # DB_DATABASE=restaurant_reservations
+   # DB_USERNAME=your_username
+   # DB_PASSWORD=your_password
+   
    php artisan migrate --seed
    ```
 
