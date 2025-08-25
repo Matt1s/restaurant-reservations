@@ -284,9 +284,9 @@
                         @if($reservation_date && $reservation_time && $party_size)
                             <div class="flex justify-center">
                                 <button wire:click="nextStep" 
-                                        class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform transition duration-200 hover:scale-105">
+                                        class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-2 sm:py-3 px-4 sm:px-8 rounded-lg shadow-lg transform transition duration-200 hover:scale-105 text-sm sm:text-base">
                                     Find Available Tables
-                                    <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
                                 </button>
@@ -345,19 +345,19 @@
                             </div>
                         @endif
 
-                        <div class="flex justify-between">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
                             <button wire:click="goBack" 
-                                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-200">
-                                <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md transition duration-200 text-sm sm:text-base">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
                                 </svg>
                                 Back
                             </button>
                             @if($selected_table_id)
                                 <button wire:click="nextStep" 
-                                        class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-200 hover:scale-105">
+                                        class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-lg transform transition duration-200 hover:scale-105 text-sm sm:text-base">
                                     Continue
-                                    <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
                                 </button>
@@ -446,17 +446,17 @@
                             @enderror
                         </div>
 
-                        <div class="flex justify-between">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
                             <button wire:click="goBack" 
-                                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-200">
-                                <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md transition duration-200 text-sm sm:text-base">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
                                 </svg>
                                 Back
                             </button>
                             <button wire:click="makeReservation" 
-                                    class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform transition duration-200 hover:scale-105">
-                                <svg class="w-5 h-5 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                                    class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-2 sm:py-3 px-4 sm:px-8 rounded-lg shadow-lg transform transition duration-200 hover:scale-105 text-sm sm:text-base">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
                                 Confirm Reservation
