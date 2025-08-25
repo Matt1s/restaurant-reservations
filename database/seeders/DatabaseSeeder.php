@@ -25,5 +25,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@user.com',
             'password' => bcrypt('password123'), // password
         ]);
+
+        // Seed tables and reservations
+        $this->call([
+            TableSeeder::class,
+            ReservationSeeder::class,
+        ]);
     }
 }
