@@ -134,7 +134,7 @@ class ReservationForm extends Component
     }
 
     protected $rules = [
-        'reservation_date' => 'required|date',
+        'reservation_date' => 'required|date|after_or_equal:today',
         'reservation_time' => 'required',
         'party_size' => 'required|integer|min:1|max:12',
         'selected_table_id' => 'required|exists:tables,id',
@@ -153,6 +153,56 @@ class ReservationForm extends Component
         }
     }
 
+    protected function rules()
+    {
+        $rules = $this->rules;
+        
+        // Override date validation to use Prague timezone
+        $rules['reservation_date'] = [
+            'required',
+            'date',
+            function ($attribute, $value, $fail) {
+                try {
+                    $pragueNow = Carbon::now('Europe/Prague');
+                    $reservationDate = Carbon::parse($value, 'Europe/Prague');
+                    
+                    if ($reservationDate->isBefore($pragueNow->copy()->startOfDay())) {
+                        $fail('Reservation date cannot be in the past (Prague time).');
+                    }
+                } catch (\Exception $e) {
+                    $fail('Invalid date format.');
+                }
+            }
+        ];
+        
+        // Add time validation
+        $rules['reservation_time'] = [
+            'required',
+            function ($attribute, $value, $fail) {
+                if (!$this->reservation_date || !$value) return;
+                
+                try {
+                    $pragueNow = Carbon::now('Europe/Prague');
+                    $reservationDateTime = Carbon::parse($this->reservation_date . ' ' . $value, 'Europe/Prague');
+                    
+                    if ($reservationDateTime->isPast()) {
+                        $fail('Reservation time cannot be in the past (Prague time).');
+                    }
+                    
+                    // Check if time is within restaurant hours
+                    $allowedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
+                    if (!in_array($value, $allowedTimes)) {
+                        $fail('Please select a time between 5:00 PM and 9:00 PM.');
+                    }
+                } catch (\Exception $e) {
+                    $fail('Invalid time format.');
+                }
+            }
+        ];
+        
+        return $rules;
+    }
+
     private function validateDate()
     {
         if (!$this->reservation_date) return;
@@ -161,7 +211,7 @@ class ReservationForm extends Component
             $pragueNow = Carbon::now('Europe/Prague');
             $reservationDate = Carbon::parse($this->reservation_date, 'Europe/Prague');
             
-            if ($reservationDate->isBefore($pragueNow->startOfDay())) {
+            if ($reservationDate->isBefore($pragueNow->copy()->startOfDay())) {
                 $this->addError('reservation_date', 'Reservation date cannot be in the past (Prague time).');
                 return;
             }
