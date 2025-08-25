@@ -1,40 +1,24 @@
-# Restaurant Reservations System
+# 🍽️ Restaurant Reservations System
 
-A modern Laravel-based restaurant reservation system built with Livewire and Tailwind CSS.
+A modern, restaurant reservation system built with Laravel 11, Livewire 3, and Tailwind CSS. Features a complete booking system with admin management and real-time availability checking.
 
-## Features
+## ✨ Features
 
-- 🍽️ Table reservation management
-- 📅 Real-time availability checking
-- 👥 User authentication and management
-- 📱 Responsive design
-- ⚡ Built with Laravel 12 and Livewire 3
+### 🎯 **Core Functionality**
+- **Table Reservations**: Multi-step booking process with date/time selection
+- **Real-time Availability**: Dynamic table availability checking
+- **User Authentication**: Secure login/registration system
+- **Admin Dashboard**: Complete reservation management for restaurant staff
+- **Responsive Design**: Mobile-first design that works on all devices
 
-## 🚀 Live Demo
+## 🚀 Quick Setup
 
-**Deploy to Railway**: [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/LxfO7u)
+### Prerequisites
+- PHP 8.2 or higher
+- Composer
+- Node.js & NPM
 
-This application is optimized for [Railway](https://railway.app) deployment with zero configuration required.
-
-### Quick Deploy Steps:
-1. Click the Railway button above (or go to [railway.app](https://railway.app))
-2. Connect your GitHub account
-3. Select this repository
-4. Railway automatically detects Laravel and deploys it
-
-**Local demo**: `php artisan serve` after following the setup steps below.
-
-## Technologies Used
-
-- **Backend**: Laravel 12, PHP 8.2
-- **Frontend**: Livewire 3, Tailwind CSS 4, Vite
-- **Database**: SQLite (development) / PostgreSQL (Railway production)
-- **Testing**: Pest PHP
-- **Deployment**: Railway with automatic CI/CD
-
-## Quick Start
-
-### Local Development
+### Installation
 
 1. **Clone the repository**
    ```bash
@@ -60,54 +44,94 @@ This application is optimized for [Railway](https://railway.app) deployment with
    php artisan migrate --seed
    ```
 
-5. **Build assets and serve**
+5. **Build assets and start the server**
    ```bash
-   npm run dev
+   npm run dev &
    php artisan serve
    ```
 
-### Deployment
+6. **Access the application**
+   - Open your browser to `http://127.0.0.1:8000`
 
-This project is optimized for Railway deployment. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
+## 👥 User Accounts
 
-**One-click deploy**: Use the Railway button above or connect your GitHub repo at [railway.app](https://railway.app).
+The seeder creates two test accounts for you:
 
-## Project Structure
+### 🔑 **Admin Account**
+- **Email**: `admin@admin.com`
+- **Password**: `password123`
+- **Access**: Full admin dashboard with reservation management
 
-- `app/Models/` - Eloquent models (User, Table, Reservation)
-- `app/Http/Livewire/` - Livewire components
-- `app/Services/` - Business logic services
-- `resources/views/` - Blade templates
-- `database/migrations/` - Database schema
-- `tests/` - PHPUnit/Pest tests
+### 👤 **Regular User Account**
+- **Email**: `user@user.com`
+- **Password**: `password123`
+- **Access**: Make reservations and view personal bookings
 
-## Contributing
+## 🎛️ Application Functionality
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### **For Customers**
+- **Homepage**: View restaurant information and featured dishes
+- **Quick Reservation**: Fast booking form on homepage (when logged in)
+- **Full Reservation Flow**: Multi-step booking process with table selection
+- **My Reservations**: View and manage personal bookings
 
-## Testing
+### **For Administrators**
+- **Admin Dashboard**: Overview of all reservations in the system
+- **Reservation Management**: View, approve, or cancel any reservation
 
-Run the test suite:
+### **Reservation Process**
+1. **Date & Time Selection**: Choose preferred dining date and time
+2. **Party Size**: Select number of guests (1-8+ people)
+3. **Table Selection**: Visual table layout with availability
+4. **Special Requests**: Add dietary requirements or special occasions
+5. **Confirmation**: Review and confirm reservation details
+
+## 🧪 Testing
+
+Run the comprehensive test suite:
 ```bash
 php artisan test
 ```
 
-## License
+The application includes **131 tests** covering:
+- User authentication and authorization
+- Reservation creation and validation
+- Admin functionality
+- Timezone handling
+- Form validation
+- Database operations
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🏗️ Project Structure
 
-## Code of Conduct
+```
+app/
+├── Http/Livewire/          # Reactive components
+│   ├── ReservationForm.php # Multi-step booking form
+│   ├── AdminDashboard.php  # Admin management interface
+│   └── LanguageSwitcher.php # Language toggle component
+├── Models/                 # Database models
+│   ├── User.php           # User accounts and admin logic
+│   ├── Reservation.php    # Booking records
+│   └── Table.php          # Restaurant table management
+└── Services/              # Business logic
+    └── ReservationService.php # Booking validation and processing
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+resources/
+├── views/                 # Blade templates
 
-## Security Vulnerabilities
+database/
+├── migrations/            # Database schema
+└── seeders/              # Sample data
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🌟 Key Features Explained
 
-## License
+### **Timezone Management**
+- All times displayed in Prague timezone (`Europe/Prague`)
+- Prevents past-date bookings
+- Consistent time handling across the application
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### **Admin vs User Experience**
+- **Admin** (first user in database): Full system access, can manage all reservations
+- **Regular Users**: Can only view and manage their own bookings
+- Role-based navigation and feature access
