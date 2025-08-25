@@ -15,7 +15,7 @@ class ReservationService
             ->where('capacity', '>=', $partySize)
             ->whereDoesntHave('reservations', function ($query) use ($datetime) {
                 $query->where('reservation_datetime', $datetime)
-                      ->where('status', 'confirmed');
+                      ->whereIn('status', ['pending', 'confirmed']);
             })
             ->get();
     }
@@ -42,7 +42,7 @@ class ReservationService
             'reservation_datetime' => $datetime,
             'party_size' => $partySize,
             'special_requests' => $specialRequests,
-            'status' => 'confirmed',
+            'status' => 'pending',
         ]);
     }
 

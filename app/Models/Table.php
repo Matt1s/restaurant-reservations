@@ -31,7 +31,7 @@ class Table extends Model
     {
         return !$this->reservations()
             ->where('reservation_datetime', $datetime)
-            ->where('status', 'confirmed')
+            ->whereIn('status', ['pending', 'confirmed'])
             ->exists();
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('reservation_datetime');
             $table->integer('party_size');
             $table->text('special_requests')->nullable();
-            $table->enum('status', ['confirmed', 'cancelled', 'completed'])->default('confirmed');
+            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
             $table->timestamps();
             
             // Prevent double bookings
