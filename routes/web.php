@@ -6,6 +6,7 @@ use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\ReservationForm;
 use App\Http\Livewire\MyReservations;
+use App\Http\Livewire\AdminDashboard;
 
 Route::get('/', function () {
     return view('homepage');
@@ -30,4 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservation', ReservationForm::class)->name('reservation');
     Route::get('/reserve', ReservationForm::class)->name('reserve');
     Route::get('/my-reservations', MyReservations::class)->name('my-reservations');
+});
+
+// Admin routes - only accessible by admin users
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
 });

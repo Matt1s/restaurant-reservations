@@ -21,6 +21,9 @@
                     @auth
                         <!-- Desktop Menu -->
                         <div class="hidden sm:flex items-center space-x-4">
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('admin.dashboard') }}" class="bg-red-600 rounded-md font-bold py-2 px-4 text-white hover:text-gray-200">Admin Dashboard</a>
+                            @endif
                             <a href="/reservation" class="bg-amber-800 rounded-md font-bold py-2 px-4 text-white hover:text-gray-200">New Reservation</a>
                             <a href="/my-reservations" class="text-white font-bold hover:text-gray-200">My Reservations</a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
@@ -51,6 +54,11 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="sm:hidden hidden">
             <div class="px-2 pt-2 pb-3 space-y-1">
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="block bg-red-600 border-red-700 px-3 py-2 rounded-md text-white font-bold hover:bg-red-700 transition duration-200">
+                        Admin Dashboard
+                    </a>
+                @endif
                 <a href="/reservation" class="block bg-amber-800 border-amber-700 px-3 py-2 rounded-md text-white font-bold hover:bg-amber-700 transition duration-200">
                     New Reservation
                 </a>
