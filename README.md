@@ -144,3 +144,7 @@ database/
 - **Admin** (first user in database): Full system access, can manage all reservations
 - **Regular Users**: Can only view and manage their own bookings
 - Role-based navigation and feature access
+
+## 🗺️ Database Model
+
+![Database Model](database-model.png)
