@@ -1,7 +1,9 @@
 <?php
 // routes/web.php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\ReservationForm;
@@ -19,12 +21,12 @@ Route::middleware('guest')->group(function () {
 });
 
 // Logout route - accessible by authenticated users
-Route::middleware('auth')->post('/logout', function () {
-    auth()->logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
+Route::middleware('auth')->post('/logout', LogoutController::class)->name('logout');
+
+// Fallback for GET requests to logout (common mistake)
+Route::middleware('auth')->get('/logout', function () {
+    return redirect()->back()->with('error', 'Please use the logout button to log out.');
+});
 
 // Protected routes - only accessible by authenticated users
 Route::middleware('auth')->group(function () {

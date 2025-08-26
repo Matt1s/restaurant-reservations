@@ -28,6 +28,7 @@
                             <a href="/my-reservations" class="text-white font-bold hover:text-gray-200">My Reservations</a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
+                                @method('POST')
                                 <button type="submit" class="text-red-900 font-bold hover:text-gray-200">Logout</button>
                             </form>
                         </div>
@@ -67,6 +68,7 @@
                 </a>
                 <form method="POST" action="{{ route('logout') }}" class="block">
                     @csrf
+                    @method('POST')
                     <button type="submit" class="w-full text-red-900 font-bold text-left px-3 py-2 rounded-md hover:bg-amber-700 transition duration-200">
                         Logout
                     </button>
